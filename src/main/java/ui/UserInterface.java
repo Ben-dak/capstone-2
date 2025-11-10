@@ -1,5 +1,6 @@
 package ui;
 
+import models.Chips;
 import models.Drink;
 import models.OrderInterface;
 
@@ -10,7 +11,7 @@ import java.util.Scanner;
 public class UserInterface {
 
     // final means variable cant be reassigned once created
-    private final Scanner scanner = new Scanner(System.in);
+    private final Scanner myScanner = new Scanner(System.in);
 
     //create a list to hold all the user's selected items (I made this like a shopping cart)
     // Its typed to OrderInterface so we can store any object that implements that interface
@@ -22,12 +23,13 @@ public class UserInterface {
         while (running) {        // Runs continuously until running is set to false
             printMenu();// calls the printMenu helper method
             System.out.print("Choose an option: ");
-            String input = scanner.nextLine().trim();    // Get user input and remove spaces
+            String input = myScanner.nextLine().trim();    // Get user input and remove spaces
 
             //Handles which action to take based on the user's input
             switch (input) {
-                case "1" -> addDrink();   //If user enters 1 call addDrink()
-                case "2" -> showCart();
+                case "2" -> addDrink();//If user enters 1 call addDrink()
+                case "3" -> addChips();
+                case "4" -> showCart();
                 case "0" -> running = false;
                 default -> System.out.println("Invalid option.");
             }
@@ -38,9 +40,60 @@ public class UserInterface {
     // print menu to be used so things look cleaner
     private void printMenu() {
         System.out.println("=== Bendak's Sandwiches Menu ===");
-        System.out.println("1) Add Drink"); //will make sandwiches #1 later but using this to test
-        System.out.println("2) Show Cart");
+        System.out.println("2) Add Drink"); //will make sandwiches #1 later but using this to test
+        System.out.println("3) Add Chips");
+        System.out.println("4) Show Cart");
         System.out.println("0) Exit");
+    }
+
+    public void addChips() {
+        System.out.println("=== Add Chips ==="); // I guess crisps, these arent fries Dave LOL
+
+        // Display the list of available flavors
+        System.out.println("Choose a flavor:");
+        System.out.println("1) Plain Chips");
+        System.out.println("2) BBQ Chips");
+        System.out.println("3) Spicy Chips");
+        System.out.println("4) Cheddar Chips");
+
+        // Ask for a flavor choice
+        int choice = 0;
+        boolean validFlavor = false;
+
+        while (!validFlavor) {
+            System.out.print("Flavor (1-4): ");
+
+            if (myScanner.hasNextInt()) {
+                choice = myScanner.nextInt();
+                myScanner.nextLine();
+
+                if (choice >= 1 && choice <= 4) {
+                    validFlavor = true;
+                } else {
+                    System.out.println("Choose 1 through 4.");
+                }
+            } else {
+                System.out.println("Enter a number.");
+            }
+        }
+        // Determine the flavor based on users choice
+        String flavor = switch (choice) {
+            case 1 -> "Plain";
+            case 2 -> "BBQ";
+            case 3 -> "Spicy";
+            case 4 -> "Cheddar";
+            default -> "Unknown";
+        };
+
+        // Create a new Drink object with the selected flavor and size
+        Chips chipOption = new Chips(flavor);
+
+        // Add the new Drink to the cart list
+        cart.add(chipOption);
+
+        // Print a confirmation showing what was added, its size, and its price
+        // %s = string, %d = integer, %.2f = decimal with 2 digits, %n = newline
+        System.out.printf("Added: %s - $%.2f%n", chipOption.getName(), chipOption.getPrice());
     }
 
     // Adds a new drink to the cart.
@@ -123,7 +176,7 @@ public class UserInterface {
     private void showCart() {
         System.out.println("=== Cart ===");
         if (cart.isEmpty()) {  // Check if there are no items in the cart (I added ! at the beginning initially lol)
-            System.out.println("(empty)");
+            System.out.println("Empty cart.");
             return;  // Exit method early if nothing to show
         }
 
@@ -131,11 +184,11 @@ public class UserInterface {
 
         // Loop through every item in the cart list
         // Default name (works for any object implementing OrderInterface)
-        for (OrderInterface item : cart) {
+        for (OrderInterface item : cart) { // For each item of type OrderInterface in cart
             String displayName = item.getName();
 
             // If the current item is a Drink, we want to also show its size
-            if (item instanceof Drink drink) {
+            if (item instanceof Drink drink) { // instanceof asks if is this object actually a Drink
                 // Use String.format() to combine flavor and size neatly
                 displayName = String.format("%s (%d oz)", drink.getName(), drink.getSize());
             }

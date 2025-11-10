@@ -1,14 +1,11 @@
 package models;
 
 public class Drink implements OrderInterface {
-    //Name, size - Workbook 5 - BankAccount
     private String flavor;
     private int size;
 
     /*
-    In this specific Drink implementation, getPrice()uses the value of size
-     to determine and return the correct price.
-     It tells us what size will be what price when the user is prompted to select 4, 8, or 12
+    getPrice()uses the value of size to determine and return the correct price
      */
     @Override
     public double getPrice() {
