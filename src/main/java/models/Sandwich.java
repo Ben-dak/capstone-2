@@ -67,6 +67,8 @@ public class Sandwich implements OrderInterface {
 
     public static double basePrice(int size) {
         return switch (size) {
+            // return switch (size) - the switch evaluates to a single value
+            // based on the selected size (what was selected in the console)
             case 4 -> 5.50;
             case 8 -> 7.00;
             case 12 -> 8.50;
@@ -103,10 +105,10 @@ public class Sandwich implements OrderInterface {
 
     public static double extraCheesePrice(int size) {
         return switch (size) {
-            case 4 -> .30;
-            case 8 -> .60;
-            case 12 -> .90;
-            default -> 0;
+            case 4 -> 0.30;  // small pizza = 30 cents extra
+            case 8 -> 0.60;  // medium pizza = 60 cents extra
+            case 12 -> 0.90; // large pizza = 90 cents extra
+            default -> 0.0;  // anything else = no extra cheese charge
         };
     }
 
@@ -128,5 +130,7 @@ public class Sandwich implements OrderInterface {
     }
 }
 
-/// += means - add and assign
+/// += means - Add and assign
 /// -> arrow operator - The -> arrow separates the case condition (I use this so I dont have to use a break/its cleaner)
+/// return switch (size) - The switch evaluates to a single value based on the selected size (what was selected in the console)
+/// return List.copyOf(toppings) - Returns a copy of the toppings list that the user selected while building their sandwich
