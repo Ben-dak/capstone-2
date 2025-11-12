@@ -13,24 +13,27 @@ public class ReceiptWriter {
     private static final DateTimeFormatter dtFormat =
             DateTimeFormatter.ofPattern("yyyyMMdd-HHmmss");
 
-    public Path writeReceipt(String receiptText, LocalDateTime now) { //will give path object when done
+    public Path writeReceipt(String receiptText, LocalDateTime now) {
+
         try {
-            Path folderDir = Paths.get("receipts");
-            Files.createDirectories(folderDir); // File is a utility class in JAva
+            // Create a folder path that points to src/main/resources/receipts
+            Path folderDir = Paths.get("src/main/resources/receipts");
 
-            String fileName = dtFormat.format(now) + ".txt"; //makess the file name the date now with the format stored in dtFormat
+            String fileName = dtFormat.format(now) + ".txt";
+            //makes the file name the date now with the format stored in dtFormat
 
-            // created a filePath of type Path (dont want to confuse it with the Files UTILITY class)
-            Path filePath = Paths.get(folderDir.toString() + "/" + fileName); // combines folderDir and fileName into one path string(like "receipts/(numbers-numbers).txt")
-                                                                               // then converts into a Path object using Paths.get()
-            // Buffered writer
-            try (BufferedWriter bWriter =
-                         new BufferedWriter(new FileWriter(filePath.toFile()))) { //Creates a BufferedWriter that writes to the file represented by this Path
-                bWriter.write(receiptText);
+            Path filePath = Paths.get(folderDir.toString(), fileName);
+            // This combines folderDir and fileName into one path string(like "receipts/(numbers-numbers).txt")
+            // then converts into a Path object using Paths.get()
+
+            try (BufferedWriter writer = new BufferedWriter(new FileWriter(filePath.toFile()))) {
+                writer.write(receiptText);
+                //Creates a BufferedWriter that writes to the file represented by this Path
             }
             return filePath;
+
         } catch (IOException e) {
-            throw new RuntimeException("Error, receipt writing failed.", e);
+            throw new RuntimeException("Error: Unable to write receipt file.", e);
         }
     }
 }
