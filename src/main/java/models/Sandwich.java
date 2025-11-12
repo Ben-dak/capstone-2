@@ -27,16 +27,17 @@ public class Sandwich implements OrderInterface {
 
     @Override
     public double getPrice() {
+        // gettiong price based on what is selected
         double price = basePrice(size); // base price of sandwich
 
-        for (Toppings t : toppings) { //adds cost for each topping
-            String type = t.getType();
+        for (Toppings toppingSelected : toppings) { //adds cost for each topping
+            String type = toppingSelected.getType();
             if (Toppings.typeMeat.equals(type)) {
                 price += meatPrice(size); // takes value of price and adds the value from meatPrice(size) and stores new total back into price
-                if (t.isExtra()) price += extraMeatPrice(size); // Add extra charge if its marked "extra"
+                if (toppingSelected.isExtra()) price += extraMeatPrice(size); // Add extra charge if its marked "extra"
             } else if (Toppings.typeCheese.equals(type)) { // If it’s cheese, do the same for cheese
                 price += cheesePrice(size);
-                if (t.isExtra()) price += extraCheesePrice(size);
+                if (toppingSelected.isExtra()) price += extraCheesePrice(size);// Add extra charge if its marked "extra"
             }
         }
         return price;
@@ -54,7 +55,7 @@ public class Sandwich implements OrderInterface {
 
     public List<Toppings> getToppings() {
         return List.copyOf(toppings); //returns a copy of the toppings list that the user selected while building their sandwich
-    }                                 //so when getToppings() is called for my show cart method it shows what was chose and cant be modified
+    }                                 //so when getToppings() is called for my show cart method it shows what was chosen and cant be modified
     public int getSize() {
         return size;
     }
@@ -65,56 +66,114 @@ public class Sandwich implements OrderInterface {
         return toasted;
     }
 
+    ///  WANT TO USE THIS, but I am afraid I cant explain the "return switch" as good as
+    /// - I could explain the classic switch statement - will use the below instead
+//    public static double basePrice(int size) {
+//        return switch (size) {
+//            // return switch (size) - the switch evaluates to a single value
+//            // based on the selected size (what was selected in the console)
+//            case 4 -> 5.50;
+//            case 8 -> 7.00;
+//            case 12 -> 8.50;
+//            default -> 0.0;
+//        };
+//    }
+
     public static double basePrice(int size) {
-        return switch (size) {
-            // return switch (size) - the switch evaluates to a single value
-            // based on the selected size (what was selected in the console)
-            case 4 -> 5.50;
-            case 8 -> 7.00;
-            case 12 -> 8.50;
-            default -> 0.0;
-        };
+        double result = 0.0;
+        // This is Defensive coding as it ensures that result ALWAYS has a safe starting value
+        switch (size) {
+            case 4:  result = 5.50;
+                break;
+            case 8:  result = 7.00;
+                break;
+            case 12: result = 8.50;
+                break;
+            default: result = 0.0;
+                break;
+        }
+        return result;
     }
 
     public static double meatPrice(int size) {
-        return switch (size) {
-            case 4 -> 1.00;
-            case 8 -> 2.00;
-            case 12 -> 3.00;
-            default -> 0;
-        };
+        double result = 0.0;
+        switch (size) {
+            case 4:
+                result = 1.00;
+                break;
+            case 8:
+                result = 2.00;
+                break;
+            case 12:
+                result = 3.00;
+                break;
+            default:
+                result = 0.0;
+                break;
+        }
+        return result;
     }
 
     public static double extraMeatPrice(int size) {
-        return switch (size) {
-            case 4 -> .50;
-            case 8 -> 1.00;
-            case 12 -> 1.50;
-            default -> 0;
-        };
+        double result = 0.0;
+        switch (size) {
+            case 4:
+                result = 0.50;
+                break;
+            case 8:
+                result = 1.00;
+                break;
+            case 12:
+                result = 1.50;
+                break;
+            default:
+                result = 0.0;
+                break;
+        }
+        return result;
     }
 
     public static double cheesePrice(int size) {
-        return switch (size) {
-            case 4 -> .75;
-            case 8 -> 1.50;
-            case 12 -> 2.25;
-            default -> 0;
-        };
+        double result = 0.0;
+        switch (size) {
+            case 4:
+                result = 0.75;
+                break;
+            case 8:
+                result = 1.50;
+                break;
+            case 12:
+                result = 2.25;
+                break;
+            default:
+                result = 0.0;
+                break;
+        }
+        return result;
     }
 
     public static double extraCheesePrice(int size) {
-        return switch (size) {
-            case 4 -> 0.30;  // small pizza = 30 cents extra
-            case 8 -> 0.60;  // medium pizza = 60 cents extra
-            case 12 -> 0.90; // large pizza = 90 cents extra
-            default -> 0.0;  // anything else = no extra cheese charge
-        };
+        double result = 0.0;
+        switch (size) {
+            case 4:
+                result = 0.30;
+                break;
+            case 8:
+                result = 0.60;
+                break;
+            case 12:
+                result = 0.90;
+                break;
+            default:
+                result = 0.0;
+                break;
+        }
+        return result;
     }
 
     // This method for bread choices, default is white if not asked
     private static String breadChoicePicked(String input) {
-        if (input == null) return breadWhite;
+        if (input == null) return breadWhite; // if no bread choice (input), return "White" as the default bread
         String s = input.trim();
 
         if (s.equalsIgnoreCase(breadWhite))

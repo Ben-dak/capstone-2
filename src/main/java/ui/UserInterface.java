@@ -333,6 +333,4 @@ public class UserInterface {
 
         System.out.println("Your order has been completed");
     }
-
-
 }
