@@ -27,7 +27,7 @@ public class Sandwich implements OrderInterface {
 
     @Override
     public double getPrice() {
-        // gettiong price based on what is selected
+        // getting price based on what is selected
         double price = basePrice(size); // base price of sandwich
 
         for (Toppings toppingSelected : toppings) { //adds cost for each topping
@@ -54,8 +54,9 @@ public class Sandwich implements OrderInterface {
     }
 
     public List<Toppings> getToppings() {
-        return List.copyOf(toppings); //returns a copy of the toppings list that the user selected while building their sandwich
-    }                                 //so when getToppings() is called for my show cart method it shows what was chosen and cant be modified
+        return new ArrayList<>(toppings);
+        // creates a new arraylist of toppings when getToppings() is called
+    }
     public int getSize() {
         return size;
     }

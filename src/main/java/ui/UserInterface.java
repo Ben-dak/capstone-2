@@ -44,7 +44,8 @@ public class UserInterface {
     // print menu to be used so things look cleaner
     private void printMenu() {
         System.out.println("=== Bendak's Sandwiches Menu ===");
-        System.out.println("2) Add Drink"); //will make sandwiches #1 later but using this to test
+        System.out.println("1) Add Drink");
+        System.out.println("2) Add Drink");
         System.out.println("3) Add Chips");
         System.out.println("4) Show Cart");
         System.out.println("5) Check out");
@@ -123,25 +124,28 @@ public class UserInterface {
     }
 
     private void addSandwich(){
-//        System.out.println("=== Add Sandwich===");
-//        String bread = breadChoicePicked();
-//
-//        int size;
-//        while (true) {
-//            System.out.println();
-//        }
+        System.out.println("=== Add Sandwich===");
+        String bread = breadChoicePicked();
+
+        int size;
+        while (true) {
+            System.out.println("Choose size (4, 8, 12): ");
+            try {
+                size = Integer.parseInt(myScanner.nextLine().trim());
+                if (size == 4 || size == 8 || size == 12)
+                    break;
+            } catch (NumberFormatException e) {}
+            System.out.println("Invalid size. Must be 4, 8, or 12.");
+        }
+
     }
 
-    // Adds a new drink to the cart.
     private void addDrink() {
         System.out.println("=== Add Drink ===");  // header
 
-        // Ask user for the size in oz
         int size = 0;
         boolean validSize = false;
-
-        // Validate that the size is one of the allowed options.
-        Scanner myScanner = new Scanner(System.in);
+        // Validate that the size is one of the allowed options
 
         while (!validSize) {
             System.out.println("Sizes (4, 8, or 12): ");
@@ -188,7 +192,7 @@ public class UserInterface {
                 System.out.println("Please enter a number.");
             }
         }
-        // Determine the flavor based on user' number choice
+        // Determine the flavor based on user's number choice
         String flavor = switch (choice) {
             case 1 -> "Cola";
             case 2 -> "Lemonade";
@@ -208,7 +212,6 @@ public class UserInterface {
         System.out.printf("Added: %s (%d oz) - $%.2f%n", drink.getName(), drink.getSize(), drink.getPrice());
     }
 
-    // Displays all items currently in the cart.
     private void showCart() {
         System.out.println("=== Cart ===");
         if (cart.isEmpty()) {  // Check if there are no items in the cart (I added ! at the beginning initially lol)
@@ -224,20 +227,19 @@ public class UserInterface {
             String displayName = item.getName();
 
             // If the current item is a Drink, we want to also show its size
-            if (item instanceof Drink drink) { // instanceof asks if is this object actually a Drink
-                // Use String.format() to combine flavor and size neatly
+            if (item instanceof Drink) {
+                Drink drink = (Drink) item; // instanceof asks if is this object actually a Drink
                 displayName = String.format("%s (%d oz)", drink.getName(), drink.getSize());
+                // Use String.format() to combine flavor and size neatly
             }
-
-            // Print the numbered list of items with their names and prices aligned
             System.out.printf("%d) %-24s $%.2f%n", i++, displayName, item.getPrice());
+            // Print the numbered list of items with their names and prices aligned
         }
 
         // After showing all items, print the total cost of the cart
         System.out.printf("Total: $%.2f%n", getCartTotal());
     }
 
-    // Calculates the total cost of all items in the cart.
     private double getCartTotal() {
         double total = 0.0;  // Start with 0.
         // Loop through every item and add up the prices.
@@ -334,3 +336,4 @@ public class UserInterface {
         System.out.println("Your order has been completed");
     }
 }
+
