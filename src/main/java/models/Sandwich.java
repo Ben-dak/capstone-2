@@ -13,7 +13,7 @@ public class Sandwich implements OrderInterface {
     private final String bread;   // constant that is picked in UserInterface
     private final int size;
     private final boolean toasted;
-    private final List<Topping> toppings = new ArrayList<>(); //collection of toppings
+    private final List<Toppings> toppings = new ArrayList<>(); //collection of toppings
 
     public Sandwich(String bread, int size, boolean toasted) { // will be utilized when creating a ssandwich
         this.bread = breadChoicePicked(bread); // uses the breadChoicePicked method to store the choice in the "bread" field
@@ -21,7 +21,7 @@ public class Sandwich implements OrderInterface {
         this.toasted = toasted;
     }
 
-    public void addTopping(Topping topping) { //// NOTE TO ADD THIS TO UI
+    public void addTopping(Toppings topping) { //// NOTE TO ADD THIS TO UI
         toppings.add(topping);
     }
 
@@ -29,12 +29,12 @@ public class Sandwich implements OrderInterface {
     public double getPrice() {
         double price = basePrice(size); // base price of sandwich
 
-        for (Topping t : toppings) { //adds cost for each topping
+        for (Toppings t : toppings) { //adds cost for each topping
             String type = t.getType();
-            if (Topping.typeMeat.equals(type)) {
+            if (Toppings.typeMeat.equals(type)) {
                 price += meatPrice(size); // takes value of price and adds the value from meatPrice(size) and stores new total back into price
                 if (t.isExtra()) price += extraMeatPrice(size); // Add extra charge if its marked "extra"
-            } else if (Topping.typeCheese.equals(type)) { // If it’s cheese, do the same for cheese
+            } else if (Toppings.typeCheese.equals(type)) { // If it’s cheese, do the same for cheese
                 price += cheesePrice(size);
                 if (t.isExtra()) price += extraCheesePrice(size);
             }
@@ -52,7 +52,7 @@ public class Sandwich implements OrderInterface {
         return String.format("%d\" %s Sandwich%s", size, bread, toastTag); // returns the formatted tecxt as a string
     }
 
-    public List<Topping> getToppings() {
+    public List<Toppings> getToppings() {
         return List.copyOf(toppings); //returns a copy of the toppings list that the user selected while building their sandwich
     }                                 //so when getToppings() is called for my show cart method it shows what was chose and cant be modified
     public int getSize() {
@@ -128,5 +128,5 @@ public class Sandwich implements OrderInterface {
     }
 }
 
-//// += means - add and assign
-//// -> arrow operator - The -> arrow separates the case condition (I use this so I dont have to use a break/its cleaner)
+/// += means - add and assign
+/// -> arrow operator - The -> arrow separates the case condition (I use this so I dont have to use a break/its cleaner)

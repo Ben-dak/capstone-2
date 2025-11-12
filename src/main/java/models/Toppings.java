@@ -1,6 +1,6 @@
 package models;
 
-public class Topping {
+public class Toppings {
     // Type constants (use these exact strings everywhere)
     public static final String typeMeat = "Meat";
     public static final String typeCheese = "Cheese";
@@ -30,7 +30,7 @@ public class Topping {
     private final String type;
     private final boolean extra;
 
-    public Topping(String name, String type, boolean extra) {
+    public Toppings(String name, String type, boolean extra) {
         this.name = name;
         this.type = type;
         this.extra = extra;

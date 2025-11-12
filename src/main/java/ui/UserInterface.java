@@ -1,10 +1,11 @@
 package ui;
 
-import models.Chips;
-import models.Drink;
-import models.OrderInterface;
-import models.Sandwich;
+import models.*;
+import util.ReceiptWriter;
 
+import java.nio.file.Path;
+import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Scanner;
@@ -32,6 +33,7 @@ public class UserInterface {
                 case "2" -> addDrink();//If user enters 1 call addDrink()
                 case "3" -> addChips();
                 case "4" -> showCart();
+                case "5" -> checkout();
                 case "0" -> running = false;
                 default -> System.out.println("Invalid option.");
             }
@@ -45,25 +47,26 @@ public class UserInterface {
         System.out.println("2) Add Drink"); //will make sandwiches #1 later but using this to test
         System.out.println("3) Add Chips");
         System.out.println("4) Show Cart");
+        System.out.println("5) Check out");
         System.out.println("0) Exit");
     }
 
     public void addChips() {
-        System.out.println("=== Add Chips ==="); // I guess crisps, these arent fries Dave LOL
+        System.out.println("=== Add Chips ==="); // I guess crisps, these arent fries LOL
 
-        // Display the list of available flavors
         System.out.println("Choose a flavor:");
         System.out.println("1) Plain Chips");
         System.out.println("2) BBQ Chips");
         System.out.println("3) Spicy Chips");
         System.out.println("4) Cheddar Chips");
 
-        // Ask for a flavor choice
+        // hold the user's choice and track whether it’s valid
         int choice = 0;
         boolean validFlavor = false;
 
+        // loops until valid flavor is picked
         while (!validFlavor) {
-            System.out.print("Flavor (1-4): ");
+            System.out.print("Flavor: ");
 
             if (myScanner.hasNextInt()) {
                 choice = myScanner.nextInt();
@@ -241,4 +244,95 @@ public class UserInterface {
         for (OrderInterface item : cart) total += item.getPrice();
         return total;  // Return the final total.
     }
+
+    private void checkout() {
+        // Handles the checkout process for all items currently in the cart
+
+        if (cart.isEmpty()) {
+            // if cart empty
+            System.out.println("Cart is empty.");
+            return;
+            // return - exits the method
+        }
+
+        System.out.println("=== Checkout ===");
+        // header
+
+        showCart();
+        // calls helper method showCart
+
+        System.out.print("Confirm order? (y/n): ");
+
+        String confirmOrder = myScanner.nextLine().trim().toLowerCase();
+        // Reads the users input, trims extra spaces, and converts it to lowercase
+
+        if (!confirmOrder.startsWith("y")) {
+            // if anything other than a word starting with y or Y is typed,
+            // cancel checkout (that way "n" or "no" will cancel too)
+            System.out.println("Checkout canceled.");
+            return;
+        }
+
+        StringBuilder sBuilder = new StringBuilder();
+        // create a long string in the receipt
+
+        LocalDateTime dtNow = LocalDateTime.now();
+        // Captures the current date and time when the order is being placed
+
+        DateTimeFormatter headerFmt = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss");
+        // Defines the date/time format for the receipt header
+
+        int line = 1;
+        // variable for numbering the receipt
+
+        for (OrderInterface item : cart) {
+            // Loops through each item in the cart
+            String displayName = item.getName();
+
+            if (item instanceof Drink drink) {
+                // If the item is a Drink, include its size
+                displayName = String.format("%s (%d oz)", drink.getName(), drink.getSize());
+            }
+
+            sBuilder.append(String.format("%d) %-24s $%.2f%n", line++, displayName, item.getPrice()));
+            // adds the line number (from console input), product name, and price to the string builderr
+
+            if (item instanceof Sandwich) {
+                // If the item is a Sandwich, it may have multiple toppings to list
+                Sandwich sandwich = (Sandwich) item;
+                // cast item to Sandwich
+
+                for (Toppings toppings : sandwich.getToppings()) {
+                    // Loops through all toppings for this sandwich
+                    sBuilder.append("    - ").append(toppings.getType()).append(": ").append(toppings.getName());
+                    // adds(appends) the dash, the topping type(Sauce), then topping name to the builder
+                    if (toppings.isExtra()) sBuilder.append("- extra");
+                    // calls isExtra() if the topping is extra then adds to builder
+                    sBuilder.append(System.lineSeparator()); /// I remembered that System is a built-in utility class (just a small win note)
+                    // lineSeparator adds a line break after each entry (Seperates toppings)
+                }
+            }
+        }
+
+        sBuilder.append(String.format("TOTAL: $%.2f%n", getCartTotal()));
+        // Adds a final line showing the total price of all cart items
+
+        //writer
+        ReceiptWriter bWriter = new ReceiptWriter();
+        // creates an instance of receipt writer class to handle file writing
+
+        Path path = bWriter.writeReceipt(sBuilder.toString(), dtNow);
+        // Writes the complete receipt text to the file using the current date and time
+        // Returns a Path object that points to where the file was saved
+
+        System.out.println("Receipt saved to: " + path);
+        // Prints file path (I can leave thisout if it messes up
+
+        cart.clear();
+        // clears the shopping cart sso I can start over
+
+        System.out.println("Your order has been completed");
+    }
+
+
 }
