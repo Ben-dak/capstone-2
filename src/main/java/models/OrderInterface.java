@@ -3,6 +3,7 @@ package models;
 public interface OrderInterface {
 
     double getPrice();
+
     String getName();
 }
 

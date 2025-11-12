@@ -6,7 +6,7 @@ public class Chips implements OrderInterface {
 
     @Override
     public double getPrice() {
-       return 1.50;
+        return 1.50;
     }
 
     @Override
