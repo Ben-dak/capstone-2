@@ -3,6 +3,7 @@ package ui;
 import models.Chips;
 import models.Drink;
 import models.OrderInterface;
+import models.Sandwich;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -27,6 +28,7 @@ public class UserInterface {
 
             //Handles which action to take based on the user's input
             switch (input) {
+//                case "1" -> addSandwich();
                 case "2" -> addDrink();//If user enters 1 call addDrink()
                 case "3" -> addChips();
                 case "4" -> showCart();
@@ -94,6 +96,37 @@ public class UserInterface {
         // Print a confirmation showing what was added, its size, and its price
         // %s = string, %d = integer, %.2f = decimal with 2 digits, %n = newline
         System.out.printf("Added: %s - $%.2f%n", chipOption.getName(), chipOption.getPrice());
+    }
+
+    private String breadChoicePicked() {
+        // Show the bread menu to the user
+        System.out.println("Choose bread:");
+        System.out.println("1) White");
+        System.out.println("2) Wheat");
+        System.out.println("3) Rye");
+        System.out.println("4) Wrap");
+
+        String input;
+        input = myScanner.nextLine();
+        input = input.trim();
+
+        return switch (input) {
+            case "1" -> Sandwich.breadWhite;
+            case "2" -> Sandwich.breadWheat;
+            case "3" -> Sandwich.breadRye;
+            case "4" -> Sandwich.breadWrap;
+            default -> Sandwich.breadWhite; // default if user doesnt enter
+        };
+    }
+
+    private void addSandwich(){
+//        System.out.println("=== Add Sandwich===");
+//        String bread = breadChoicePicked();
+//
+//        int size;
+//        while (true) {
+//            System.out.println();
+//        }
     }
 
     // Adds a new drink to the cart.

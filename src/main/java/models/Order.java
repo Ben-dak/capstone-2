@@ -24,7 +24,6 @@ public class Order {
         this.orderDateTime = LocalDateTime.now();
     }
 }
-
 /*
 // THIS CLASS IS LIKE A SHOPPING CART - it doesn’t make sandwiches or pour drinks,
     but it knows what’s inside and how much it all costs.
