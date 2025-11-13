@@ -355,15 +355,16 @@ public class UserInterface {
 
     private void addSandwich() {
         System.out.println("=== Add Sandwich ===");
-        String bread = breadChoice();
+        String bread = breadChoice(); // calls helper method
 
-        int size;
+        int size; // sandwich size
         while (true) {
-            System.out.print("Choose size (4, 8, 12): ");
+            System.out.print("Choose size (4, 8, 12): "); // prompt user for sandwich size
             try {
                 size = Integer.parseInt(myScanner.nextLine().trim());
-                /// Delete later just brushing up on terms - It reads the user’s input as text, removes extra spaces,
+                /// Reads the user’s input as text, removes extra spaces,
                 /// converts that text into an integer, and stores the result in the variable size
+
                 if (size == 4) {
                     break;
                 } else if (size == 8) {
@@ -372,28 +373,100 @@ public class UserInterface {
                     break;
                 }
             } catch (NumberFormatException e) {
-
             }
             System.out.println("Invalid size. Must be 4, 8, or 12.");
         }
 
-        // calls toastedOptions and returns into toasted variable
+        // calls toastedOptions and stores the result in toasted variable
         boolean toasted = toastedOptions("Toasted? (y/n): ");
 
-        // then passsed into sandwich constructor
+        // create a Sandwich object using the chosen bread, size, and toasted option
         Sandwich sandwich = new Sandwich(bread, size, toasted);
 
+        /// MEATS
+        // print a numbered list of all available meats, with a header message
+        printOptionsNumbered("Choose your meat:", Toppings.meats);
 
+        int meatChoice; // stores the number of the meat selected
+        while (true) { // keep asking until valid option chosen
+            System.out.print("Select a meat by number: ");
+            try {
+                meatChoice = Integer.parseInt(myScanner.nextLine().trim()); // read input, trim spaces, convert to int
+                if (meatChoice >= 1 && meatChoice <= 6) {
+                    break; // valid choice (within range of the meats array), exit the loop
+                }
+            } catch (NumberFormatException e) {
+            }
+            System.out.println("Invalid selection.");
+        }
+
+        //meat array
+        String meatName = Toppings.meats[meatChoice - 1];
+        // Convert the chosen number into the actual meat name
+        // (arrays are 0-based, but user choices start at 1, so we use choice - 1)
+
+        boolean meatExtra = toastedOptions("Extra " + meatName + "? (y/n): ");
+        // Ask if they want extra of the selected meat (returns true if answer starts with "y")
+
+        sandwich.addTopping(new Toppings(meatName, Toppings.typeMeat, meatExtra));
+        // Create a new Toppings object for the meat and add it to the sandwich's toppings list  (extra if its added)
+
+        /// CHEESE
+        printOptionsNumbered("Choose your cheese:", Toppings.cheeses);
+
+        int cheeseChoice;
+        while (true) {
+            System.out.print("Select a cheese by number (or 0 for no cheese): ");
+            try {
+                cheeseChoice = Integer.parseInt(myScanner.nextLine().trim()); // read input, trim spaces, convert to int
+
+                if (cheeseChoice == 0) { // no cheese
+                    break;
+                }
+                if (cheeseChoice >= 1 && cheeseChoice <= 4) {
+                    break;
+                }
+            } catch (NumberFormatException e) {
+                // if the input isn't a valid number - error message
+            }
+            System.out.println("Invalid selection. Please choose a number from the list.");
+        }
+
+        if (cheeseChoice != 0) { // if they pick no cheese do not prompt user for extra
+            String cheeseName = Toppings.cheeses[cheeseChoice - 1]; // convert choice number to actual cheese name
+            boolean cheeseExtra = toastedOptions("Extra " + cheeseName + "? (y/n): ");
+            // ask if they want extra cheese on the sandwich
+
+            sandwich.addTopping(new Toppings(cheeseName, Toppings.typeCheese, cheeseExtra));
+            // add the cheese topping to the sandwich
+        }
+
+        // add created sandwich to the cart
+        cart.add(sandwich);
+        System.out.printf("Added: %s - $%.2f%n", sandwich.getName(), sandwich.getPrice());
+        // confirm to the user what was added and show the price (the format is to 2 decimal places)
     }
 
     private boolean toastedOptions(String prompt) {
-        System.out.print(prompt); //this displays the prompt "Toasted? (y/n): "
+        System.out.print(prompt); // displays prompt that is passed in above ("Toasted? (y/n): ")
         return myScanner.nextLine().trim().toLowerCase().startsWith("y");
-        // If the user types "y" or anything that STARTS WITH "y" - will be true
+        // reads a line of input, trims spaces, converts to lowercase,
+        // and returns true if the response starts with "y" (accepts anything else as "no")
     }
 
+    private void printOptionsNumbered(String header, String[] items) {
+        // String[] items is for every item in the array (meats, cheese, etc -
+        // shown above like this: Toppings.meats[meatChoice - 1])
 
-
+        System.out.println(header);
+        for (int i = 0; i < items.length; i++) {
+            // loops through array
+            // i starts at 0 (arrays are 0 based)
+            // the loop continues until i reaches the last index
+            System.out.println((i + 1) + ") " + items[i]);
+            // prints each item with a number (starting at 1 bc of "(i+1)")
+        }
+    }
 
 }
 
