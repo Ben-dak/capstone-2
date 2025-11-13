@@ -157,23 +157,6 @@ public class UserInterface {
         };
     }
 
-    private void addSandwich(){
-        System.out.println("=== Add Sandwich===");
-        String bread = breadChoice();
-
-        int size;
-        while (true) {
-            System.out.println("Choose size (4, 8, 12): ");
-            try {
-                size = Integer.parseInt(myScanner.nextLine().trim());
-                if (size == 4 || size == 8 || size == 12)
-                    break;
-            } catch (NumberFormatException e) {}
-            System.out.println("Invalid size. Must be 4, 8, or 12.");
-        }
-
-    }
-
     private void addDrink() {
         System.out.println("=== Add Drink ===");  // header
 
@@ -342,7 +325,7 @@ public class UserInterface {
                     // Loops through all toppings for this sandwich
                     sBuilder.append("    - ").append(toppings.getType()).append(": ").append(toppings.getName());
                     // adds(appends) the dash, the topping type(Sauce), then topping name to the builder
-                    if (toppings.isExtra()) sBuilder.append("- extra");
+                    if (toppings.isExtra()) sBuilder.append(" - extra");
                     // calls isExtra() if the topping is extra then adds to builder
                     sBuilder.append(System.lineSeparator()); /// I remembered that System is a built-in utility class (just a small win note)
                     // lineSeparator adds a line break after each entry (Seperates toppings)
@@ -350,7 +333,7 @@ public class UserInterface {
             }
         }
 
-        sBuilder.append(String.format("TOTAL: $%.2f%n", getCartTotal()));
+        sBuilder.append(String.format("Total: $%.2f%n", getCartTotal()));
         // Adds a final line showing the total price of all cart items
 
         //writer
@@ -369,5 +352,33 @@ public class UserInterface {
 
         System.out.println("Your order has been completed");
     }
+
+    private void addSandwich() {
+        System.out.println("=== Add Sandwich ===");
+        String bread = breadChoice();
+
+        int size;
+        while (true) {
+            System.out.print("Choose size (4, 8, 12): ");
+            try {
+                size = Integer.parseInt(myScanner.nextLine().trim());
+                if (size == 4) {
+                    break;
+                } else if (size == 8) {
+                    break;
+                } else if (size == 12) {
+                    break;
+                }
+            } catch (NumberFormatException e) {
+
+            }
+            System.out.println("Invalid size. Must be 4, 8, or 12.");
+        }
+
+        // create a toastedOptions method to help here
+        boolean toasted = toastedOptions("Toasted? (y/n): ");
+
+        Sandwich sandwich = new Sandwich(bread, size, toasted);
+        }
 }
 
