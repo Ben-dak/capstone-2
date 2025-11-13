@@ -19,37 +19,71 @@ public class UserInterface {
     // Its typed to OrderInterface so we can store any object that implements that interface
     private final List<OrderInterface> cart = new ArrayList<>();
 
-    // The MAIN loop that displays the menu and processes user commands
+    // The loop that displays the home screen then calls orderLoop method
     public void display() {
-        boolean running = true;  // Controls the main loop (what I used before, like it's running
-        while (running) {        // Runs continuously until running is set to false
-            printMenu();// calls the printMenu helper method
-            System.out.print("Choose an option: ");
-            String input = myScanner.nextLine().trim();    // Get user input and remove spaces
+        boolean running = true;
 
-            //Handles which action to take based on the user's input
+        while (running) {
+            System.out.println("=== Bendak's Sandwich Shop ===");
+            System.out.println("1) New Order");
+            System.out.println("0) Exit");
+            System.out.print("Choose an option: ");
+
+            String input = myScanner.nextLine().trim();
+
             switch (input) {
-//                case "1" -> addSandwich();
-                case "2" -> addDrink();//If user enters 1 call addDrink()
+                case "1":
+                    // start a brand-new order
+                    cart.clear();
+                    // just in case something is in cart
+                    orderLoop();
+                    // go to the Order Screen
+                    break;
+
+                case "0":
+                    running = false;
+                    break;
+
+                default:
+                    System.out.println("Invalid option, try again.");
+                    break;
+            }
+        }
+        System.out.println("Thank you, come again!");
+    }
+
+    // menu to be used by display method so things look cleaner
+    private void orderLoop() {
+        boolean running = true;
+
+        while (running) {
+            System.out.println("=== New Order ===");
+            System.out.println("1) Add Sandwich");
+            System.out.println("2) Add Drink");
+            System.out.println("3) Add Chips");
+            System.out.println("4) Show Cart");
+            System.out.println("5) Checkout");
+            System.out.println("0) Cancel Order");
+            System.out.print("Choose an option: ");
+
+            String input = myScanner.nextLine().trim();
+
+            switch (input) {
+                case "1" -> addSandwich();
+                case "2" -> addDrink();
                 case "3" -> addChips();
                 case "4" -> showCart();
                 case "5" -> checkout();
-                case "0" -> running = false;
+                case "0" -> {
+                    // Cancel the order and go back to Home Screen
+                    cart.clear();
+
+                    System.out.println("Order canceled. Returning to home screen.");
+                    running = false;   // breaks out of this loop, back to display()
+                }
                 default -> System.out.println("Invalid option.");
             }
         }
-        System.out.println("Thank you, come again!"); // Message when the user exits the program
-    }
-
-    // print menu to be used so things look cleaner
-    private void printMenu() {
-        System.out.println("=== Bendak's Sandwiches Menu ===");
-        System.out.println("1) Add Drink");
-        System.out.println("2) Add Drink");
-        System.out.println("3) Add Chips");
-        System.out.println("4) Show Cart");
-        System.out.println("5) Check out");
-        System.out.println("0) Exit");
     }
 
     public void addChips() {
@@ -102,7 +136,7 @@ public class UserInterface {
         System.out.printf("Added: %s - $%.2f%n", chipOption.getName(), chipOption.getPrice());
     }
 
-    private String breadChoicePicked() {
+    private String breadChoice() {
         // Show the bread menu to the user
         System.out.println("Choose bread:");
         System.out.println("1) White");
@@ -125,7 +159,7 @@ public class UserInterface {
 
     private void addSandwich(){
         System.out.println("=== Add Sandwich===");
-        String bread = breadChoicePicked();
+        String bread = breadChoice();
 
         int size;
         while (true) {
@@ -328,7 +362,7 @@ public class UserInterface {
         // Returns a Path object that points to where the file was saved
 
         System.out.println("Receipt saved to: " + path);
-        // Prints file path (I can leave thisout if it messes up
+        // Prints file path (I can leave this out if it messes up)
 
         cart.clear();
         // clears the shopping cart sso I can start over

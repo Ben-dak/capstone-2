@@ -16,7 +16,7 @@ public class Sandwich implements OrderInterface {
     private final List<Toppings> toppings = new ArrayList<>(); //collection of toppings
 
     public Sandwich(String bread, int size, boolean toasted) { // will be utilized when creating a ssandwich
-        this.bread = breadChoicePicked(bread); // uses the breadChoicePicked method to store the choice in the "bread" field
+        this.bread = breadChoice(bread); // uses the breadChoicePicked method to store the choice in the "bread" field
         this.size = size;
         this.toasted = toasted;
     }
@@ -173,7 +173,7 @@ public class Sandwich implements OrderInterface {
     }
 
     // This method for bread choices, default is white if not asked
-    private static String breadChoicePicked(String input) {
+    private static String breadChoice(String input) {
         if (input == null) return breadWhite; // if no bread choice (input), return "White" as the default bread
         String s = input.trim();
 
