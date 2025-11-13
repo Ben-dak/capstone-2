@@ -441,6 +441,127 @@ public class UserInterface {
             // add the cheese topping to the sandwich
         }
 
+        /// VEGGIES
+        printOptionsNumbered("Choose veggies:", Toppings.veggies);
+        // print a numbered list of all veggies with a header message
+
+        System.out.print("Select veggies by number (Separate with comma): ");
+        String line = myScanner.nextLine().trim();
+        // Reads the user’s sauce selections and trims whitespaces
+
+        if (!line.isEmpty()) {
+            // If the user typed anything, process the choices
+            String[] parts = line.split(",");
+            // splits the input into separate entries (like this: "1,3,4")
+
+            for (String NumberChoices : parts) {
+                NumberChoices = NumberChoices.trim();
+                // Remove extra spaces around each number
+
+                try {
+                    int vegChoice = Integer.parseInt(NumberChoices);
+                    // Convert the string pNumberChoices - to an integer
+
+                    if (vegChoice >= 1 && vegChoice <= 9) {
+                        // number range for veggies
+
+                        String veggieName = Toppings.veggies[vegChoice - 1];
+                        // Shows the user’s choice as the corresponding veggie string
+
+                        sandwich.addTopping(new Toppings(veggieName, Toppings.typeVeggies, false));
+                        // Adds the selected veggie as a topping to the sandwich (no extras)
+                    } else {
+                        System.out.println("Ignoring invalid veggie number: " + vegChoice);
+                        // Any number outside the valid range is ignored
+                    }
+                } catch (NumberFormatException e) {
+                    System.out.println("Ignoring invalid entry: " + NumberChoices);
+                    // If the user typed something that isn't a number then this skip it
+                }
+            }
+        }
+
+        /// SAUCES
+        printOptionsNumbered("Choose sauces:", Toppings.sauces);
+        // print a numbered list of all sauces with a header message
+
+        System.out.print("Select sauces by number (Separate with comma): ");
+        String sauceLine = myScanner.nextLine().trim();
+        // Reads the users sauce selections and trims whitespace
+
+        if (!sauceLine.isEmpty()) {
+            // If the user typed anything, process the choices
+            String[] parts = sauceLine.split(",");
+            // splits the input into separate entries (like this: 1,3,4)
+
+            for (String NumberChoices : parts) {
+                NumberChoices = NumberChoices.trim();
+                // Remove extra spaces around each number
+
+                try {
+                    int sauceChoice = Integer.parseInt(NumberChoices);
+                    // Convert the entry into an integer
+
+                    if (sauceChoice >= 1 && sauceChoice <= Toppings.sauces.length) {
+                        // Ensure the choice is within the valid sauce range
+
+                        String sauceName = Toppings.sauces[sauceChoice - 1];
+                        // Look up the sauce name based on the number provided
+
+                        sandwich.addTopping(new Toppings(sauceName, Toppings.typeSauce, false));
+                        // Add this sauce topping to the sandwich
+                    } else {
+                        System.out.println("Ignoring invalid sauce number: " + sauceChoice);
+                        // If out of range, notify user and skip it
+                    }
+                } catch (NumberFormatException e) {
+                    System.out.println("Ignoring invalid entry: " + NumberChoices);
+                    // If not a number - skip that entry
+                }
+            }
+        }
+
+
+        /// Sides
+        printOptionsNumbered("Choose sides:", Toppings.sides);
+        // print a numbered list of all sauces with a header message
+
+        System.out.print("Select sides by number (Separate with comma): ");
+        String sideLine = myScanner.nextLine().trim();
+        // Reads the line of side selections from the user
+
+        if (!sideLine.isEmpty()) {
+            // Only continue if the user entered something
+            String[] parts = sideLine.split(",");
+            // splits the input into separate entries (like this: 1,3,4)
+
+            for (String NumberChoices : parts) {
+                NumberChoices = NumberChoices.trim();
+                // Remove extra spaces around each number
+
+                try {
+                    int sideChoice = Integer.parseInt(NumberChoices);
+                    // Parse the entry into an integer
+
+                    if (sideChoice >= 1 && sideChoice <= 2) {
+                        // Ensure the choice is within the valid sauce range
+
+                        String sideName = Toppings.sides[sideChoice - 1];
+                        // Look up the sauce name based on the number provided
+
+                        sandwich.addTopping(new Toppings(sideName, Toppings.typeSide, false));
+                        // Add the side to the cart
+                    } else {
+                        System.out.println("Ignoring invalid side number: " + sideChoice);
+                        // If out of range, notify user and skip it
+                    }
+                } catch (NumberFormatException e) {
+                    System.out.println("Ignoring invalid entry: " + NumberChoices);
+                    // If not a number - skip that entry
+                }
+            }
+        }
+
         // add created sandwich to the cart
         cart.add(sandwich);
         System.out.printf("Added: %s - $%.2f%n", sandwich.getName(), sandwich.getPrice());
