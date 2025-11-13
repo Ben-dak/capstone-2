@@ -362,6 +362,8 @@ public class UserInterface {
             System.out.print("Choose size (4, 8, 12): ");
             try {
                 size = Integer.parseInt(myScanner.nextLine().trim());
+                /// Delete later just brushing up on terms - It reads the user’s input as text, removes extra spaces,
+                /// converts that text into an integer, and stores the result in the variable size
                 if (size == 4) {
                     break;
                 } else if (size == 8) {
@@ -375,10 +377,23 @@ public class UserInterface {
             System.out.println("Invalid size. Must be 4, 8, or 12.");
         }
 
-        // create a toastedOptions method to help here
+        // calls toastedOptions and returns into toasted variable
         boolean toasted = toastedOptions("Toasted? (y/n): ");
 
+        // then passsed into sandwich constructor
         Sandwich sandwich = new Sandwich(bread, size, toasted);
-        }
+
+
+    }
+
+    private boolean toastedOptions(String prompt) {
+        System.out.print(prompt); //this displays the prompt "Toasted? (y/n): "
+        return myScanner.nextLine().trim().toLowerCase().startsWith("y");
+        // If the user types "y" or anything that STARTS WITH "y" - will be true
+    }
+
+
+
+
 }
 
