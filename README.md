@@ -26,40 +26,101 @@ When an order is confirmed, a receipt is generated and written to a text file.
 
 ### Interfaces
 
-| Interface                | Purpose                                                                                                          |
-|--------------------------|------------------------------------------------------------------------------------------------------------------|
+|  Interface                | Purpose                                                                                                          |
+|---------------------------|------------------------------------------------------------------------------------------------------------------|
 | <center> `OrderInterface` | <center> Ensures all orderable items provide `getName()` and `getPrice()`, so they can be handled in one cart. |
 
 ---
 
 ### Models
 
-| Class          | Purpose                                                                                                                                                      |
-|----------------|--------------------------------------------------------------------------------------------------------------------------------------------------------------|
-| <center> `Sandwich` | <center> Represents a customizable sandwich (bread, size, toasted) and holds a `List<Toppings>`. Calculates total sandwich price based on size and toppings. |
-| <center> `Drink`    | <center> Represents a drink with `flavor` and `size`. Price is determined by drink size.                                                                     |
-| <center> `Chips`    | <center> Represents a bag of chips with a chosen `flavor` and a set price.                                                                                   |
- Stores all topping options in static arrays.     |
+|  Class                                       | Purpose                                                                                                                                                      |
+|----------------------------------------------|--------------------------------------------------------------------------------------------------------------------------------------------------------------|
+| <center> `Sandwich`                          | <center> Represents a customizable sandwich (bread, size, toasted) and holds a `List<Toppings>`. Calculates total sandwich price based on size and toppings. |
+| <center> `Drink`                             | <center> Represents a drink with `flavor` and `size`. Price is determined by drink size.                                                                     |
+| <center> `Chips`                             | <center> Represents a bag of chips with a chosen `flavor` and a set price.                                                                                   |
+
+
 ---
 
 ### UI & Utility
 
-| Class             | Purpose                                                                                                                                 |
-|-------------------|-----------------------------------------------------------------------------------------------------------------------------------------|
+| Class             | Purpose                                                                                                                                |
+|-------------------|----------------------------------------------------------------------------------------------------------------------------------------|
 | <center> `UserInterface` | <center> Handles all console screens and user input. Manages a `List<OrderInterface>` cart, builds items, shows cart, and runs checkout. |
-| <center> `Program`       | <center> Entry point (`main` method). Starts the app by creating `UserInterface` and calling `display()`.                        |
-| <center> `ReceiptWriter` | <center> Writes the final receipt text to a timestamped `.txt` file in `src/main/resources/receipts`.                           |
+| <center> `Program`       | <center> Entry point (`main` method). Starts the app by utilizing `UserInterface` to call `display()`.                          |
+| <center> `ReceiptWriter` | <center> Writes the final receipt text to a `.txt` file in `src/main/resources/receipts`.                                   |
 
 ---
 
-## <center>Usage Display
+## <center>Screens
 
-#### Screens
+### Home Screen:
+![home_screen.png](src/main/resources/images/home_screen.png)
+### Order Screen:
+![order_screen.png](src/main/resources/images/order_screen.png)
+### Choose Bread:
+![add_sandwich_choose_bread.png](src/main/resources/images/add_sandwich_choose_bread.png)
+### Choose Meat:
+![choose_meat.png](src/main/resources/images/choose_meat.png)
+### Choose Cheese:
+![choosse_cheese.png](src/main/resources/images/choosse_cheese.png)
+### Choose Veggies:
+![choose_veggies.png](src/main/resources/images/choose_veggies.png)
+### Choose Sauces:
+![choose_sauces.png](src/main/resources/images/choose_sauces.png)
+### Choose Sides:
+![choose_sides.png](src/main/resources/images/choose_sides.png)
+### Add Drink:
+![add_drink.png](src/main/resources/images/add_drink.png)
+### Add Chips:
+![add_chips.png](src/main/resources/images/add_chips.png)
+### Checkout Screen:
+![checkout.png](src/main/resources/images/checkout.png)
+### Receipt:
+![receipt.png](src/main/resources/images/receipt.png)
 
-(PUT SCREENSHOTS OF SCREENS HERE)
+## <center>Interesting Code — Cart + Show Cart Display</center>
 
 ---
 
-## <center>Interesting Feature
+### In UserInterface Class
 
-(PUT THE SHOW CART HERE)
+#### I store all orderable items in a single collection:
+
+```java
+private final List<OrderInterface> cart = new ArrayList<>();
+```
+
+#### OrderInterface only requires getName() and getPrice(), so the cart can hold any item type (Sandwich, Drink, Chips) as long as it implements the interface.
+
+#### showCart() behavior:
+
+If the cart is empty, it exits early:
+```java
+if (cart.isEmpty()) {
+System.out.println("Empty cart.");
+return;
+}
+```
+#### Otherwise, it loops through each OrderInterface item in the cart and prints a numbered list:
+```java
+    int i = 1;  
+    
+    for (OrderInterface item : cart) { 
+        String displayName = item.getName();
+        
+        if (item instanceof Drink) {
+            Drink drink = (Drink) item;
+            displayName = String.format("%s (%d oz)", drink.getName(), drink.getSize());
+        }
+        System.out.printf("%d) %-24s $%.2f%n", i++, displayName, item.getPrice());
+    }
+    System.out.printf("Total: $%.2f%n", getCartTotal());
+```
+
+### Why it’s interesting:
+
+#### The cart is flexible and reusable as new item types can be added easily by implementing OrderInterface.
+
+#### Early on I was originally going to rename this to checkout and build from there but realized it could be used in a couple ways as a helper method for checkout by calling showCart().

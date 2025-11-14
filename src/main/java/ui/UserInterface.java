@@ -142,6 +142,7 @@ public class UserInterface {
         System.out.println("2) Wheat");
         System.out.println("3) Rye");
         System.out.println("4) Wrap");
+        System.out.print("Choose an option: ");
 
         String input;
         input = myScanner.nextLine();
@@ -229,7 +230,7 @@ public class UserInterface {
     }
 
     private void showCart() {
-        System.out.println("=== Cart ===");
+        System.out.println("Cart:");
         if (cart.isEmpty()) {  // Check if there are no items in the cart (I added ! at the beginning initially lol)
             System.out.println("Empty cart.");
             return;  // Exit method early if nothing to show
@@ -257,8 +258,8 @@ public class UserInterface {
     }
 
     private double getCartTotal() {
-        double total = 0.0;  // Start with 0.
-        // Loop through every item and add up the prices.
+        double total = 0.0;  // Start with 0
+        // Loop through every item and add up the prices
         for (OrderInterface item : cart) total += item.getPrice();
         return total;  // Return the final total.
     }
