@@ -9,7 +9,6 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Scanner;
 
-@SuppressWarnings("PatternVariableCanBeUsed")
 public class UserInterface {
 
     private final Scanner myScanner = new Scanner(System.in);
@@ -231,38 +230,29 @@ public class UserInterface {
     }
 
     private void showCart() {
-        System.out.println("Cart:");
-        if (cart.isEmpty()) {  // Check if there are no items in the cart (I added ! at the beginning initially lol)
+        System.out.println("Cart:"); //header
+        if (cart.isEmpty()) { //if List<OrderInterface> is empty, state cart is empty
             System.out.println("Empty cart.");
             return;  // Exit method early if nothing to show
         }
-
-        int i = 1;  // numbers each item in the cart.
+        int i = 1;  // numbers each item in the cart
 
         // Loop through every item in the cart list
-        // Default name (works for any object implementing OrderInterface)
-        for (OrderInterface item : cart) { // For each item of type OrderInterface in cart
-            String displayName = item.getName();
+        for (OrderInterface item : cart) { // For each item, of type OrderInterface, in cart
+            String displayName = item.getName(); // calls getName on the item
 
-            // If the current item is a Drink, we want to also show its size
-            if (item instanceof Drink) {
-                Drink drink = (Drink) item; // instanceof asks if is this object actually a Drink
-                displayName = String.format("%s (%d oz)", drink.getName(), drink.getSize());
-                // Use String.format() to combine flavor and size neatly
-            }
             System.out.printf("%d) %-24s $%.2f%n", i++, displayName, item.getPrice());
-            // Print the numbered list of items with their names and prices aligned
+            // Print the numbered list of items with their names and prices assigned
         }
-
         // After showing all items, print the total cost of the cart
-        System.out.printf("Total: $%.2f%n", getCartTotal());
+        System.out.printf("Total: $%.2f%n", getCartTotal()); //calls getCartTotal to actually get the total
     }
 
     private double getCartTotal() {
         double total = 0.0;  // Start with 0
         // Loop through every item and add up the prices
         for (OrderInterface item : cart) total += item.getPrice();
-        return total;  // Return the final total.
+        return total;  // Return the final total
     }
 
     private void checkout() {

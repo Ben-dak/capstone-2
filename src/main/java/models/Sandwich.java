@@ -3,7 +3,6 @@ package models;
 import java.util.ArrayList;
 import java.util.List;
 
-@SuppressWarnings({"UnusedAssignment", "EnhancedSwitchMigration"})
 public class Sandwich implements OrderInterface {
     // Constants
     public static final String breadWhite = "White bread";

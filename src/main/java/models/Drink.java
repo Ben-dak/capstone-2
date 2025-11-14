@@ -1,6 +1,5 @@
 package models;
 
-@SuppressWarnings("FieldMayBeFinal")
 public class Drink implements OrderInterface {
     private final String flavor;
     private int size;
@@ -26,7 +25,7 @@ public class Drink implements OrderInterface {
 
     @Override
     public String getName() {
-        return flavor;
+        return String.format("%s (%d oz)", flavor, size);
     }
 
     public int getSize() {

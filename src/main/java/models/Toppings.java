@@ -1,6 +1,5 @@
 package models;
 
-@SuppressWarnings("ClassCanBeRecord")
 public class Toppings {
     // constants
     public static final String typeMeat = "Meat";
