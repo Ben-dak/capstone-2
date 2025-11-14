@@ -5,19 +5,18 @@ import util.ReceiptWriter;
 
 import java.nio.file.Path;
 import java.time.LocalDateTime;
-import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Scanner;
 
 public class UserInterface {
 
-    // final means variable cant be reassigned once created
     private final Scanner myScanner = new Scanner(System.in);
+    // final means variable cant be reassigned once created
 
-    //create a list to hold all the user's selected items (I made this like a shopping cart)
-    // Its typed to OrderInterface so we can store any object that implements that interface
     private final List<OrderInterface> cart = new ArrayList<>();
+    // create a list to hold all the user's selected items (I made this like a shopping cart)
+    // Its typed to OrderInterface so we can store any object that implements that interface
 
     // The loop that displays the home screen then calls orderLoop method
     public void display() {
@@ -118,10 +117,10 @@ public class UserInterface {
         }
         // Determine the flavor based on users choice
         String flavor = switch (choice) {
-            case 1 -> "Plain";
-            case 2 -> "BBQ";
-            case 3 -> "Spicy";
-            case 4 -> "Cheddar";
+            case 1 -> "Plain Chips";
+            case 2 -> "BBQ Chips";
+            case 3 -> "Spicy Chips";
+            case 4 -> "Cheddar Chips";
             default -> "Unknown";
         };
 
@@ -297,9 +296,6 @@ public class UserInterface {
 
         LocalDateTime dtNow = LocalDateTime.now();
         // Captures the current date and time when the order is being placed
-
-        DateTimeFormatter headerFmt = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss");
-        // Defines the date/time format for the receipt header
 
         int line = 1;
         // variable for numbering the receipt

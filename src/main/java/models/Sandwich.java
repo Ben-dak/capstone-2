@@ -5,9 +5,9 @@ import java.util.List;
 
 public class Sandwich implements OrderInterface {
     // Constants
-    public static final String breadWhite = "White";
-    public static final String breadWheat = "Wheat";
-    public static final String breadRye = "Rye";
+    public static final String breadWhite = "White bread";
+    public static final String breadWheat = "Wheat bread";
+    public static final String breadRye = "Rye bread";
     public static final String breadWrap = "Wrap";
 
     private final String bread;   // constant that is picked in UserInterface
@@ -56,15 +56,6 @@ public class Sandwich implements OrderInterface {
     public List<Toppings> getToppings() {
         return new ArrayList<>(toppings);
         // creates a new arraylist of toppings when getToppings() is called
-    }
-    public int getSize() {
-        return size;
-    }
-    public String getBread() {
-        return bread;
-    }
-    public boolean isToasted() {
-        return toasted;
     }
 
     ///  WANT TO USE THIS, but I am afraid I cant explain the "return switch" as good as
