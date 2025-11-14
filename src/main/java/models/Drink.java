@@ -1,5 +1,6 @@
 package models;
 
+@SuppressWarnings("FieldMayBeFinal")
 public class Drink implements OrderInterface {
     private final String flavor;
     private int size;

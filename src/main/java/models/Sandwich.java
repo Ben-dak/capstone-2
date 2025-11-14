@@ -3,6 +3,7 @@ package models;
 import java.util.ArrayList;
 import java.util.List;
 
+@SuppressWarnings({"UnusedAssignment", "EnhancedSwitchMigration"})
 public class Sandwich implements OrderInterface {
     // Constants
     public static final String breadWhite = "White bread";
@@ -15,13 +16,13 @@ public class Sandwich implements OrderInterface {
     private final boolean toasted;
     private final List<Toppings> toppings = new ArrayList<>(); //collection of toppings
 
-    public Sandwich(String bread, int size, boolean toasted) { // will be utilized when creating a ssandwich
+    public Sandwich(String bread, int size, boolean toasted) { // will be utilized when creating a sandwich
         this.bread = breadChoice(bread); // uses the breadChoicePicked method to store the choice in the "bread" field
         this.size = size;
         this.toasted = toasted;
     }
 
-    public void addTopping(Toppings topping) { //// NOTE TO ADD THIS TO UI
+    public void addTopping(Toppings topping) {
         toppings.add(topping);
     }
 
@@ -50,7 +51,7 @@ public class Sandwich implements OrderInterface {
             toastTag = " - Toasted"; // if its toasted it will display this
         }
 
-        return String.format("%d\" %s Sandwich%s", size, bread, toastTag); // returns the formatted tecxt as a string
+        return String.format("%d\" %s Sandwich%s", size, bread, toastTag); // returns the formatted text as a string
     }
 
     public List<Toppings> getToppings() {
@@ -58,22 +59,9 @@ public class Sandwich implements OrderInterface {
         // creates a new arraylist of toppings when getToppings() is called
     }
 
-    ///  WANT TO USE THIS, but I am afraid I cant explain the "return switch" as good as
-    /// - I could explain the classic switch statement - will use the below instead
-//    public static double basePrice(int size) {
-//        return switch (size) {
-//            // return switch (size) - the switch evaluates to a single value
-//            // based on the selected size (what was selected in the console)
-//            case 4 -> 5.50;
-//            case 8 -> 7.00;
-//            case 12 -> 8.50;
-//            default -> 0.0;
-//        };
-//    }
-
     public static double basePrice(int size) {
         double result = 0.0;
-        // This is Defensive coding as it ensures that result ALWAYS has a safe starting value
+        // This is Defensive coding as it ensures that result ALWAYS has a safe starting value (0.0)
         switch (size) {
             case 4:  result = 5.50;
                 break;
@@ -180,8 +168,3 @@ public class Sandwich implements OrderInterface {
         return breadWhite;
     }
 }
-
-/// += means - Add and assign
-/// -> arrow operator - The -> arrow separates the case condition (I use this so I dont have to use a break/its cleaner)
-/// return switch (size) - The switch evaluates to a single value based on the selected size (what was selected in the console)
-/// return List.copyOf(toppings) - Returns a copy of the toppings list that the user selected while building their sandwich

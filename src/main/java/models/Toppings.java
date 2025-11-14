@@ -1,7 +1,8 @@
 package models;
 
+@SuppressWarnings("ClassCanBeRecord")
 public class Toppings {
-    // Type constants (use these exact strings everywhere)
+    // constants
     public static final String typeMeat = "Meat";
     public static final String typeCheese = "Cheese";
     public static final String typeVeggies = "Veggies";

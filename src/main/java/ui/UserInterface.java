@@ -9,6 +9,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Scanner;
 
+@SuppressWarnings("PatternVariableCanBeUsed")
 public class UserInterface {
 
     private final Scanner myScanner = new Scanner(System.in);
@@ -86,7 +87,7 @@ public class UserInterface {
     }
 
     public void addChips() {
-        System.out.println("=== Add Chips ==="); // I guess crisps, these arent fries LOL
+        System.out.println("=== Add Chips ===");
 
         System.out.println("Choose a flavor:");
         System.out.println("1) Plain Chips");
@@ -153,7 +154,7 @@ public class UserInterface {
             case "2" -> Sandwich.breadWheat;
             case "3" -> Sandwich.breadRye;
             case "4" -> Sandwich.breadWrap;
-            default -> Sandwich.breadWhite; // default if user doesnt enter
+            default -> Sandwich.breadWhite; // default if user doesn't enter
         };
     }
 
@@ -311,7 +312,7 @@ public class UserInterface {
             }
 
             sBuilder.append(String.format("%d) %-24s $%.2f%n", line++, displayName, item.getPrice()));
-            // adds the line number (from console input), product name, and price to the string builderr
+            // adds the line number (from console input), product name, and price to the string builder
 
             if (item instanceof Sandwich) {
                 // If the item is a Sandwich, it may have multiple toppings to list
@@ -325,7 +326,7 @@ public class UserInterface {
                     if (toppings.isExtra()) sBuilder.append(" - extra");
                     // calls isExtra() if the topping is extra then adds to builder
                     sBuilder.append(System.lineSeparator()); /// I remembered that System is a built-in utility class (just a small win note)
-                    // lineSeparator adds a line break after each entry (Seperates toppings)
+                    // lineSeparator adds a line break after each entry (Separates toppings)
                 }
             }
         }
@@ -369,7 +370,7 @@ public class UserInterface {
                 } else if (size == 12) {
                     break;
                 }
-            } catch (NumberFormatException e) {
+            } catch (NumberFormatException ignored) { // catch error and continue loop (don't need the exception object (e))
             }
             System.out.println("Invalid size. Must be 4, 8, or 12.");
         }
@@ -392,7 +393,7 @@ public class UserInterface {
                 if (meatChoice >= 1 && meatChoice <= 6) {
                     break; // valid choice (within range of the meats array), exit the loop
                 }
-            } catch (NumberFormatException e) {
+            } catch (NumberFormatException ignored) { // catch error and continue loop
             }
             System.out.println("Invalid selection.");
         }
@@ -406,7 +407,7 @@ public class UserInterface {
         // Ask if they want extra of the selected meat (returns true if answer starts with "y")
 
         sandwich.addTopping(new Toppings(meatName, Toppings.typeMeat, meatExtra));
-        // Create a new Toppings object for the meat and add it to the sandwich's toppings list  (extra if its added)
+        // Create a new Toppings object for the meat and add it to the sandwich's toppings list  (extra if it's added)
 
         /// CHEESE
         printOptionsNumbered("Choose your cheese:", Toppings.cheeses);
@@ -573,7 +574,7 @@ public class UserInterface {
     }
 
     private void printOptionsNumbered(String header, String[] items) {
-        // String[] items is for every item in the array (meats, cheese, etc -
+        // String[] items is for every item in the array (meats, cheese, etc. -
         // shown above like this: Toppings.meats[meatChoice - 1])
 
         System.out.println(header);

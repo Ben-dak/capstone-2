@@ -1,5 +1,6 @@
 package models;
 
+@SuppressWarnings("FieldMayBeFinal")
 public class Chips implements OrderInterface {
     // Name, size, price - Workbook 5 - BankAccount
     private String flavor;
